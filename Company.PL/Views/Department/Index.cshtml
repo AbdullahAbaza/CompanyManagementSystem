@@ -1,0 +1,69 @@
+﻿@model IEnumerable<DepartmentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    <div id="para" class="alert alert-primary">
+        @TempData["Message"]
+    </div>
+}
+@section TempDataMessageHide{
+    <script type="text/javascript">
+        $(function () {
+            $('#para').delay(2000).hide(500);
+        });
+    </script>
+}
+
+
+<h1>All Departments</h1>
+<br />
+<br />
+
+
+<a asp-controller="Department" asp-action="Create" class="btn btn-primary">Create New Department</a>
+
+<br />
+
+<partial name="_SearchBoxPartial" />
+
+@if (Model.Count() > 0)
+{
+    <table class="mt-4 table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(D => D.Code)</th>
+                <th>@Html.DisplayNameFor(D => D.Name)</th>
+                <th>@Html.DisplayNameFor(D => D.DateOfCreation)</th>
+                <th>Details</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach(var department in Model)
+            {
+                <tr>
+                    <td>@department.Code</td>
+                    <td>@department.Name</td>
+                    <td>@department.DateOfCreation</td>
+
+                    <partial name="_ButtonsPartial" model="@department.Id"/>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="mt-4 alert alert-warning">
+        <h3>There are no Departments :(</h3>
+
+    </div>
+}
+
